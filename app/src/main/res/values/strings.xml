@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">OfficeStationary</string>
+    <string name="stationary_name_input_hint">Enter stationary name</string>
+    <string name="stationary_desc_input_hint">Enter stationary description</string>
+    <string name="save_btn_text">Save</string>
+    <string name="saved_success_msg">Saved</string>
+    <string name="saved_fail_msg">Failed to save</string>
+    <string name="profile_page_placeholder">Player will be here</string>
+    <string name="btn_add_new_movie">Add new</string>
+    <string name="btn_go_player">Go to Player</string>
+    <string name="title_activity_list">List of stationary</string>
+    <string name="title_activity_add_new_stationary">AddNewStationaryActivity</string>
+    <string name="title_activity_add_new">AddNewActivity</string>
 </resources>

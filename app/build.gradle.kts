@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.officestationary"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.officestationary"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -79,4 +79,6 @@ dependencies {
     //Livedata
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
+    //Navigation
+    implementation ("androidx.navigation:navigation-compose:2.7.5")
 }

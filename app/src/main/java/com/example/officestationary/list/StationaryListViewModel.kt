@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.officestationary.data.StationaryRepository
-import com.example.officestationary.models.Stationary
+import com.example.officestationary.data.dataClasses.Stationary
 import kotlinx.coroutines.launch
 
 class StationaryListViewModel(
