@@ -43,7 +43,7 @@ class StationaryRepository {
         try {
 
             val stationaryRequest =
-                StationaryRequest(stationary.name, stationary.description)
+                StationaryRequest(stationary.name, stationary.description, stationary.price)
 
             response = RetrofitInstance.stationaryService.insertNewStationary(
                 "00014241",

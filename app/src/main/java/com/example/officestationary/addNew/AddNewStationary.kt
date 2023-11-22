@@ -46,7 +46,7 @@ fun AddNewStationary(
 
     val name = remember { mutableStateOf("") }
     val description = remember { mutableStateOf("") }
-    val price = remember { mutableStateOf(0.0) }
+    val price = remember { mutableStateOf(" ") }
 
     val response by viewModel.insertResponseLiveData.observeAsState()
 
@@ -65,12 +65,16 @@ fun AddNewStationary(
                 onDescriptionChange = { description.value = it })
             Spacer(Modifier.height(16.dp))
 
+            // New input field for price
+            PriceInput(price = price.value, onPriceChange = { price.value = it })
+            Spacer(Modifier.height(16.dp))
+
             AddNewButton {
                 viewModel.saveNewStationary(
                     Stationary(
                         name.value,
                         description.value,
-                        price.value
+                        price.value.toDoubleOrNull()
                     )
                 )
             }
@@ -132,6 +136,26 @@ private fun DescriptionInput(description: String, onDescriptionChange: (String) 
         }
     )
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PriceInput(price: String, onPriceChange: (String) -> Unit) {
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = Color.Black,
+            containerColor = colorResource(id = R.color.white)
+        ),
+        value = price,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        onValueChange = { onPriceChange(it) },
+        label = {
+            Text(stringResource(id = R.string.stationary_price_input_hint))
+        }
+    )
+}
+
 
 
 @Composable

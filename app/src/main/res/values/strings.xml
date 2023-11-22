@@ -2,6 +2,7 @@
     <string name="app_name">OfficeStationary</string>
     <string name="stationary_name_input_hint">Enter stationary name</string>
     <string name="stationary_desc_input_hint">Enter stationary description</string>
+    <string name="stationary_price_input_hint">Enter item price</string>
     <string name="save_btn_text">Save</string>
     <string name="saved_success_msg">Saved</string>
     <string name="saved_fail_msg">Failed to save</string>

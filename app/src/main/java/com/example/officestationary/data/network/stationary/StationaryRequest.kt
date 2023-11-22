@@ -6,5 +6,7 @@ data class StationaryRequest (
     @SerializedName("title")
     val name: String,
     @SerializedName("description")
-    val description: String?
+    val description: String?,
+    @SerializedName("price")
+    val price: Double?
 )
