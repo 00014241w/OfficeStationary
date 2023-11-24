@@ -5,6 +5,7 @@ import com.example.officestationary.data.network.stationary.StationaryResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface StationaryService {
@@ -18,4 +19,10 @@ interface StationaryService {
         @Query("student_id") student_id: String,
         @Body stationaryRequest: StationaryRequest
     ): MyResponse
+
+    @GET("records/{record_id}")
+    suspend fun getOneStationaryById(
+        @Path("record_id") record_id: String,
+        @Query("student_id") student_id: String
+    ): MyItemResponse<StationaryResponse>
 }

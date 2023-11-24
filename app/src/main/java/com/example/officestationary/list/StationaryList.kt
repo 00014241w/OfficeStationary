@@ -1,6 +1,7 @@
 package com.example.officestationary.list
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,26 +34,41 @@ import com.example.officestationary.R
 import com.example.officestationary.data.StationaryRepository
 import com.example.officestationary.data.dataClasses.Stationary
 
+
 @Composable
 fun StationaryList(
     viewModel: StationaryListViewModel = StationaryListViewModel(StationaryRepository()),
     onAddNewStationaryClick: () -> Unit,
-    onPlayerBtnClick: () -> Unit
+    onPlayerBtnClick: () -> Unit,
+    onStationaryClick: (String) -> Unit = {}
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        val movies by viewModel.stationariesLiveData.observeAsState()
+        Column {
+            Text(
+                stringResource(id = R.string.recommended_for_you),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp, 20.dp, 0.dp, 10.dp),
+                textAlign = TextAlign.Left
+            )
 
-        if (!movies.isNullOrEmpty()) {
-            LazyColumn(modifier = Modifier
-                .fillMaxHeight()
-                .padding(0.dp, 0.dp, 0.dp, 90.dp)) {
-                items(items = movies!!.toList(), itemContent = { item ->
-                    StationaryItem(stationary = item)
-                })
+            val stationaries by viewModel.stationariesLiveData.observeAsState()
+
+            if (!stationaries.isNullOrEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(0.dp, 0.dp, 0.dp, 90.dp)
+                ) {
+                    items(items = stationaries!!.toList(), itemContent = { item ->
+                        StationaryItem(stationary = item, onStationaryClick)
+                    })
+                }
             }
         }
 
@@ -97,7 +113,7 @@ fun StationaryList(
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun StationaryItem(stationary: Stationary){
+fun StationaryItem(stationary: Stationary, onStationaryClick: (String) -> Unit){
     ElevatedCard(
         modifier = Modifier
             .padding(12.dp, 6.dp),
@@ -116,6 +132,9 @@ fun StationaryItem(stationary: Stationary){
             Modifier
                 .fillMaxWidth()
                 .padding(12.dp)
+                .clickable {
+                    onStationaryClick(stationary.id)
+                }
         ) {
             StationaryItemName(name = stationary.name)
             if (!stationary.description.isNullOrEmpty())

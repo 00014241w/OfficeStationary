@@ -29,7 +29,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.officestationary.ListActivity
@@ -50,53 +52,68 @@ fun AddNewStationary(
 
     val response by viewModel.insertResponseLiveData.observeAsState()
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
+    Column {
+        Text(
+            stringResource(id = R.string.create_your_ad),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = Color.White)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            NameInput(name = name.value, onNameChange = { name.value = it })
-            Spacer(Modifier.height(16.dp))
-            DescriptionInput(
-                description = description.value,
-                onDescriptionChange = { description.value = it })
-            Spacer(Modifier.height(16.dp))
+                .padding(10.dp, 20.dp, 0.dp, 10.dp),
+            textAlign = TextAlign.Left
+        )
 
-            // New input field for price
-            PriceInput(price = price.value, onPriceChange = { price.value = it })
-            Spacer(Modifier.height(16.dp))
 
-            AddNewButton {
-                viewModel.saveNewStationary(
-                    Stationary(
-                        name.value,
-                        description.value,
-                        price.value.toDoubleOrNull()
-                    )
-                )
-            }
-        }
-
-        if (response != null) {
-            Text(
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
                 modifier = Modifier
-                    .padding(20.dp)
-                    .align(Alignment.Center),
-                fontSize = 19.sp,
-                text = if (response!!.status == "OK") stringResource(id = R.string.saved_success_msg)
-                else stringResource(id = R.string.saved_fail_msg)
-            )
+                    .fillMaxWidth()
+                    .background(color = Color(0xFFE0E0E0))
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                NameInput(name = name.value, onNameChange = { name.value = it })
+                Spacer(Modifier.height(16.dp))
+                DescriptionInput(
+                    description = description.value,
+                    onDescriptionChange = { description.value = it })
+                Spacer(Modifier.height(16.dp))
 
-            if (response!!.status == "OK") {
-                context.startActivity(Intent(context, ListActivity::class.java))
+                // New input field for price
+                PriceInput(price = price.value, onPriceChange = { price.value = it })
+                Spacer(Modifier.height(16.dp))
+
+                AddNewButton {
+                    viewModel.saveNewStationary(
+                        Stationary(
+                            name = name.value,
+                            description = description.value,
+                            price = price.value.toDoubleOrNull(),
+                            color = null,
+                            longDescription = null,
+                            url = null
+                        )
+                    )
+                }
+            }
+
+            if (response != null) {
+                Text(
+                    modifier = Modifier
+                        .padding(20.dp)
+                        .align(Alignment.Center),
+                    fontSize = 19.sp,
+                    text = if (response!!.status == "OK") stringResource(id = R.string.saved_success_msg)
+                    else stringResource(id = R.string.saved_fail_msg)
+                )
+
+                if (response!!.status == "OK") {
+                    context.startActivity(Intent(context, ListActivity::class.java))
+                }
             }
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -176,7 +193,7 @@ private fun AddNewButton(onClick: () -> Unit) {
     ) {
         Text(
             fontSize = 16.sp,
-            text = stringResource(id = R.string.save_btn_text)
+            text = stringResource(id = R.string.publish_btn_text)
         )
     }
 }

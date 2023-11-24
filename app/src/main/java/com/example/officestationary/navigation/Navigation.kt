@@ -11,6 +11,7 @@ import com.example.officestationary.profile.PlayerScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.officestationary.detailedView.DetailedView
 
 
 @Composable
@@ -21,11 +22,21 @@ fun Navigation(navController: NavHostController, context: Context) {
                 context.startActivity(Intent(context, AddNewActivity::class.java))
             }, onPlayerBtnClick = {
                 navController.navigate(Screens.PlayerPageScreen.route)
-            })
+            }, onStationaryClick = {stationaryId ->
+                navController.navigate("detailedView/$stationaryId")
+                }
+            )
         }
 
         composable(Screens.PlayerPageScreen.route) {
             PlayerScreen()
+        }
+
+        composable(
+            route = "detailedView/{stationaryId}"
+        ){
+            backStackEntry ->
+            DetailedView(stationaryId = backStackEntry.arguments?.getString("stationaryId")!!)
         }
     }
 }

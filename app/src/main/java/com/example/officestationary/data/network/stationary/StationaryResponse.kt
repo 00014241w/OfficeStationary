@@ -15,5 +15,7 @@ data class StationaryResponse(
     @SerializedName("color")
     val color: String,
     @SerializedName("type")
-    val longDescription: String
+    val longDescription: String,
+    @SerializedName("url")
+    val url: String?
 )
