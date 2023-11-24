@@ -1,6 +1,7 @@
 package com.example.officestationary.list
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CardDefaults
@@ -24,12 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.officestationary.R
 import com.example.officestationary.data.StationaryRepository
 import com.example.officestationary.data.dataClasses.Stationary
@@ -127,22 +131,68 @@ fun StationaryItem(stationary: Stationary, onStationaryClick: (String) -> Unit){
         shape = RectangleShape // Remove border radius
     )
     {
-        Column(
-            modifier =
-            Modifier
+        Row(
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
                 .clickable {
                     onStationaryClick(stationary.id)
                 }
         ) {
-            StationaryItemName(name = stationary.name)
-            if (!stationary.description.isNullOrEmpty())
-                StationaryItemDesc(desc = stationary.description)
+            // Image on the left taking 30% of the card width
+            StationaryItemImg(url = stationary.url, modifier = Modifier
+                .width(0.dp)
+                .weight(0.3f)
+                .padding(6.dp)
+                .fillMaxHeight()
+            )
+
+            // Content in a column taking 70% of the card width
+            Column(
+                modifier = Modifier
+                    .width(0.dp)
+                    .weight(0.7f)
+                    .fillMaxHeight()
+                    .padding(12.dp)
+            ) {
+                StationaryItemName(name = stationary.name)
+                if (!stationary.description.isNullOrEmpty())
+                    StationaryItemDesc(desc = stationary.description)
                 StationaryItemPrice(price = stationary.price)
+            }
+        }
+
+    }
+}
+@Composable
+private fun StationaryItemImg(url: String?, modifier: Modifier = Modifier) {
+    val imageUrl = url ?: ""
+    Box(
+        modifier = modifier
+    ) {
+        if (imageUrl.isNotEmpty()) {
+            // Display image if URL is not empty
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = "Item image",
+                placeholder = painterResource(id = R.drawable.sudoimage),
+                error = painterResource(id = R.drawable.sudoimage),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            )
+        } else {
+            // Display placeholder image if URL is empty
+            Image(
+                painter = painterResource(id = R.drawable.sudoimage),
+                contentDescription = null, // Set contentDescription to null for placeholder images
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            )
         }
     }
 }
+
 
 @Composable
 private fun StationaryItemName(name: String) {
