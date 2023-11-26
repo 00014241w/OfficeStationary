@@ -8,5 +8,11 @@ data class StationaryRequest (
     @SerializedName("description")
     val description: String?,
     @SerializedName("price")
-    val price: Double?
+    val price: Double?,
+    @SerializedName("color")
+    val color: String?,
+    @SerializedName("type")
+    val longDesc: String?,
+    @SerializedName("url")
+    val url: String?,
 )

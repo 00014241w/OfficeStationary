@@ -27,8 +27,8 @@ class StationaryRepository {
                                 name = stationaryFromResponse.name,
                                 description = stationaryFromResponse.description,
                                 price = stationaryFromResponse.price,
-                                color = null,
-                                longDescription = null,
+                                color = stationaryFromResponse.color,
+                                longDesc = stationaryFromResponse.longDesc,
                                 url = stationaryFromResponse.url
                             )
                         )
@@ -48,7 +48,7 @@ class StationaryRepository {
         try {
 
             val stationaryRequest =
-                StationaryRequest(stationary.name, stationary.description, stationary.price)
+                StationaryRequest(stationary.name, stationary.description, stationary.price, stationary.color, stationary.longDesc, stationary.url)
 
             response = RetrofitInstance.stationaryService.insertNewStationary(
                 "00014241",
@@ -78,7 +78,7 @@ class StationaryRepository {
                         description = stationaryFromResponse.description,
                         price = stationaryFromResponse.price,
                         color = stationaryFromResponse.color,
-                        longDescription = stationaryFromResponse.longDescription,
+                        longDesc = stationaryFromResponse.longDesc,
                         url = stationaryFromResponse.url
                     )
                 }
@@ -89,4 +89,34 @@ class StationaryRepository {
         }
         return null
     }
+
+    suspend fun updateStationary(stationary: Stationary): MyItemResponse<StationaryResponse>? {
+        val response: MyItemResponse<StationaryResponse>
+
+        try {
+            val stationaryRequest =
+                StationaryRequest(
+                    name = stationary.name,
+                    description = stationary.description,
+                    price = stationary.price,
+                    color = stationary.color,
+                    longDesc = stationary.longDesc,
+                    url = stationary.url
+                )
+
+            response = RetrofitInstance.stationaryService.putStationary(
+                stationary.id,
+                "00014241",
+                stationaryRequest
+            )
+
+            Log.d("Update_response", response.toString())
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+
+        return response
+    }
 }
+

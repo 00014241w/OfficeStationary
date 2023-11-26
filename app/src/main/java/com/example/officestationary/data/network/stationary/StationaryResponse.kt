@@ -11,11 +11,12 @@ data class StationaryResponse(
     @SerializedName("description")
     val description: String?,
     @SerializedName("price")
-    val price: Double,
+    val price: Double?,
     @SerializedName("color")
-    val color: String,
+    val color: String?,
     @SerializedName("type")
-    val longDescription: String,
+    val longDesc: String?,
     @SerializedName("url")
-    val url: String?
+    val url: String?,
+
 )

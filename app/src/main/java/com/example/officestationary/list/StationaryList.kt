@@ -14,10 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -29,6 +34,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -46,34 +52,45 @@ fun StationaryList(
     onPlayerBtnClick: () -> Unit,
     onStationaryClick: (String) -> Unit = {}
 ) {
+    val stationaries by viewModel.stationariesLiveData.observeAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Column {
-            Text(
-                stringResource(id = R.string.recommended_for_you),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp, 20.dp, 0.dp, 10.dp),
-                textAlign = TextAlign.Left
-            )
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            item {
+                SearchInput(name = "", onNameChange = {})
+            }
+            item {
+                Text(
+                    stringResource(id = R.string.recommended_for_you),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp, 20.dp, 0.dp, 10.dp),
+                    textAlign = TextAlign.Left
+                )
+            }
 
-            val stationaries by viewModel.stationariesLiveData.observeAsState()
 
             if (!stationaries.isNullOrEmpty()) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(0.dp, 0.dp, 0.dp, 90.dp)
-                ) {
-                    items(items = stationaries!!.toList(), itemContent = { item ->
-                        StationaryItem(stationary = item, onStationaryClick)
-                    })
-                }
+                items(items = stationaries!!.toList(), itemContent = { item ->
+                    StationaryItem(stationary = item, onStationaryClick)
+                })
             }
+//            if (!stationaries.isNullOrEmpty()) {
+//                LazyColumn(
+//                    modifier = Modifier
+//                        .fillMaxHeight()
+//                        .padding(0.dp, 0.dp, 0.dp, 90.dp)
+//                ) {
+//                    items(items = stationaries!!.toList(), itemContent = { item ->
+//                        StationaryItem(stationary = item, onStationaryClick)
+//                    })
+//                }
+//            }
         }
 
         Row(
@@ -113,6 +130,33 @@ fun StationaryList(
         }
     }
 
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SearchInput(name: String, onNameChange: (String) -> Unit) {
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(6.dp, 6.dp, 6.dp, 0.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = Color.Black,
+            containerColor = colorResource(id = R.color.lighter_gray),
+
+        ),
+        leadingIcon = {
+            // Use the search icon from the resources drawables
+            Icon(
+                painter = painterResource(id = R.drawable.icons8_search), // Replace with your actual resource ID
+                contentDescription = null
+            )
+        },
+        value = name,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        onValueChange = { onNameChange(it) },
+        label = {
+            Text(stringResource(id = R.string.search_item))
+        }
+    )
 }
 
 @SuppressLint("SuspiciousIndentation")

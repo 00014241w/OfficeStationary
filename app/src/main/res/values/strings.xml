@@ -2,8 +2,12 @@
     <string name="app_name">OfficeStationary</string>
     <string name="stationary_name_input_hint">Enter stationary name</string>
     <string name="stationary_desc_input_hint">Enter stationary description</string>
+    <string name="stationary_long_desc_input_hint">Enter a detailed description of the item</string>
     <string name="stationary_price_input_hint">Enter item price</string>
+    <string name="stationary_image_input_hint">Enter stationary image URL</string>
+    <string name="stationary_color_menu_hint">Choose item color</string>
     <string name="publish_btn_text">Publish</string>
+    <string name="purchase_btn_text">Purchase</string>
     <string name="saved_success_msg">Saved</string>
     <string name="saved_fail_msg">Failed to save</string>
     <string name="profile_page_placeholder">Player will be here</string>
@@ -14,4 +18,6 @@
     <string name="title_activity_add_new">AddNewActivity</string>
     <string name="create_your_ad">Create your ad</string>
     <string name="recommended_for_you">Recommended for you</string>
+    <string name="search_item">Search here</string>
+    <string name="dollar_sign">$</string>
 </resources>
