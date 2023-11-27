@@ -14,7 +14,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,10 +33,13 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.example.officestationary.R
 import com.example.officestationary.data.StationaryRepository
@@ -80,17 +91,6 @@ fun StationaryList(
                     StationaryItem(stationary = item, onStationaryClick)
                 })
             }
-//            if (!stationaries.isNullOrEmpty()) {
-//                LazyColumn(
-//                    modifier = Modifier
-//                        .fillMaxHeight()
-//                        .padding(0.dp, 0.dp, 0.dp, 90.dp)
-//                ) {
-//                    items(items = stationaries!!.toList(), itemContent = { item ->
-//                        StationaryItem(stationary = item, onStationaryClick)
-//                    })
-//                }
-//            }
         }
 
         Row(
@@ -203,6 +203,13 @@ fun StationaryItem(stationary: Stationary, onStationaryClick: (String) -> Unit){
                     StationaryItemDesc(desc = stationary.description)
                 StationaryItemPrice(price = stationary.price)
             }
+
+            ShowDialog()
+//            Icon(
+//                imageVector = Icons.Default.MoreVert,
+//                contentDescription = "Menu icon",
+//                modifier = Modifier.clickable { Log.d("Click", "IconExample") }
+//            )
         }
 
     }
@@ -269,6 +276,70 @@ private fun StationaryItemPrice(price: Double?) {
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(0.dp, 5.dp, 0.dp, 0.dp)
+        )
+    }
+}
+
+//@Composable
+//fun ShowDialog(){
+//    val is_dialog_open = remember { mutableStateOf(false)}
+//
+//    Column(
+//        verticalArrangement = Arrangement.Center,
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        modifier = Modifier.fillMaxWidth()
+//    ) {
+//        Button(onClick = { is_dialog_open.value = true }) {
+//            Icon(
+//                imageVector = Icons.Default.MoreVert,
+//                contentDescription = "Menu icon"
+//            )
+//        }
+//        if(is_dialog_open.value){
+//            Dialog(
+//
+//            )
+//        }
+//    }
+//}
+
+@Composable
+fun ShowDialog() {
+    var isDialogOpen = remember { mutableStateOf(false) }
+
+    if (isDialogOpen.value) {
+        AlertDialog(
+            onDismissRequest = { isDialogOpen.value = false },
+
+            confirmButton = {
+                Button(
+                    onClick = { isDialogOpen.value = false },
+                    colors = ButtonDefaults.buttonColors(Color.Transparent)
+                ) {
+                    Text(text = "Edit", color = Color.Black, fontWeight = FontWeight.Bold)
+                }
+
+                Button(
+                    onClick = { isDialogOpen.value = false },
+                    colors = ButtonDefaults.buttonColors(Color.Transparent)
+                ) {
+                    Text(text = "Delete", color = Color.Black, fontWeight = FontWeight.Bold)
+                }
+            },
+            shape = RectangleShape
+        )
+    }
+
+    Button(
+        onClick = { isDialogOpen.value = true },
+        modifier = Modifier.padding(6.dp),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        shape = CircleShape
+    ) {
+        Icon(
+            imageVector = Icons.Default.MoreVert,
+            contentDescription = "Menu icon",
+            tint = Color.Black
         )
     }
 }

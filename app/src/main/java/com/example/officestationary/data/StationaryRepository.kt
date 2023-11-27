@@ -90,6 +90,33 @@ class StationaryRepository {
         return null
     }
 
+    suspend fun getStationaryDetails(stationaryId: String): Stationary? {
+        try {
+            val response: MyItemResponse<StationaryResponse> =
+                RetrofitInstance.stationaryService.getStationaryDetails(
+                    stationaryId, "00014241",
+                )
+            val stationaryFromResponse = response.data
+
+            if (stationaryFromResponse != null) {
+                return Stationary(
+                    id = stationaryFromResponse.id.toString(),
+                    name = stationaryFromResponse.name,
+                    description = stationaryFromResponse.description ?: "",
+                    price = stationaryFromResponse.price ?: 0.0,
+                    color = stationaryFromResponse.color ?: "",
+                    longDesc = stationaryFromResponse.longDesc ?: "",
+                    url = stationaryFromResponse.url ?: ""
+                )
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            return null;
+        }
+
+        return null;
+    }
+
     suspend fun updateStationary(stationary: Stationary): MyItemResponse<StationaryResponse>? {
         val response: MyItemResponse<StationaryResponse>
 

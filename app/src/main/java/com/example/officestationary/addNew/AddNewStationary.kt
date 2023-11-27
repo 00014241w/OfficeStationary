@@ -72,7 +72,7 @@ fun AddNewStationary(
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp, 20.dp, 0.dp, 10.dp),
+                .padding(10.dp, 20.dp, 0.dp, 0.dp),
             textAlign = TextAlign.Left
         )
 
@@ -85,15 +85,13 @@ fun AddNewStationary(
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState())
             ) {
+                UrlInput(url = url.value, onNameChange = {url.value = it})
+                Spacer(Modifier.height(16.dp))
                 NameInput(name = name.value, onNameChange = { name.value = it })
                 Spacer(Modifier.height(16.dp))
                 DescriptionInput(
                     description = description.value,
                     onDescriptionChange = { description.value = it })
-                Spacer(Modifier.height(16.dp))
-
-                UrlInput(url = url.value, onNameChange = {url.value = it})
-
                 Spacer(Modifier.height(16.dp))
                 // New input field for price
                 Row(
@@ -207,16 +205,21 @@ private fun DescriptionInput(description: String, onDescriptionChange: (String) 
 private fun UrlInput(url: String, onNameChange: (String) -> Unit) {
     TextField(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(150.dp),
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.Black,
-            containerColor = colorResource(id = R.color.white)
+            containerColor = colorResource(id = R.color.bleak_yellow)
         ),
         value = url,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         onValueChange = { onNameChange(it) },
         label = {
-            Text(stringResource(id = R.string.stationary_image_input_hint))
+            Text(
+                stringResource(id = R.string.stationary_image_input_hint),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     )
 }

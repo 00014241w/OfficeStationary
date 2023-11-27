@@ -28,6 +28,12 @@ interface StationaryService {
         @Query("student_id") student_id: String
     ): MyItemResponse<StationaryResponse>
 
+    @GET("records/{phoneId}")
+    suspend fun getStationaryDetails(
+        @Path("record_id") record_id: String,
+        @Query("student_id") student_id: String,
+    ): MyItemResponse<StationaryResponse>
+
     @PUT("records/{record_id}")
     suspend fun putStationary(
         @Path("record_id") record_id: String,
